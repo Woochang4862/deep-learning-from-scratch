@@ -5,11 +5,15 @@ import numpy as np
 import pickle
 from dataset.mnist import load_mnist
 from common.functions import sigmoid, softmax
+from PIL import Image
 
+def img_show(img):
+    pil_img = Image.fromarray(np.uint8(img))
+    pil_img.show()
 
 def get_data():
     (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
-    return x_test, t_test
+    return x_train, t_train, x_test, t_test
 
 
 def init_network():
@@ -32,7 +36,7 @@ def predict(network, x):
     return y
 
 
-x, t = get_data()
+x, t, x_test, t_test = get_data()
 network = init_network()
 accuracy_cnt = 0
 for i in range(len(x)):
@@ -42,3 +46,7 @@ for i in range(len(x)):
         accuracy_cnt += 1
 
 print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
+
+img_show(x_test[100].reshape(28,28))
+print(t_test[100])
+print(predict(network, x_test[0]))
