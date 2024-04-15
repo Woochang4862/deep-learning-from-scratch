@@ -2,18 +2,17 @@
 import sys, os
 sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
 import numpy as np
-import pickle
+import pickle # 
 from dataset.mnist import load_mnist
 from common.functions import sigmoid, softmax
-from PIL import Image
+import matplotlib.pyplot as plt
+import time
 
-def img_show(img):
-    pil_img = Image.fromarray(np.uint8(img))
-    pil_img.show()
+np.set_printoptions(linewidth=150,threshold=1000)
 
-def get_data():
-    (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
-    return x_train, t_train, x_test, t_test
+def get_data(normalize=True,flatten=True,one_hot_label=False):
+    (x_train, t_train), (x_test, t_test) = load_mnist(normalize=normalize, flatten=flatten, one_hot_label=one_hot_label)
+    return x_test, t_test
 
 
 def init_network():
@@ -35,18 +34,31 @@ def predict(network, x):
 
     return y
 
-
-x, t, x_test, t_test = get_data()
+start_time = time.time()
+x, t = get_data()
 network = init_network()
+y = []
+list_of_is_correct = []
 accuracy_cnt = 0
 for i in range(len(x)):
-    y = predict(network, x[i])
-    p= np.argmax(y) # 확률이 가장 높은 원소의 인덱스를 얻는다.
+    y_ = predict(network, x[i])
+    p = np.argmax(y_) # 확률이 가장 높은 원소의 인덱스를 얻는다.
+    y.append(p)
+    list_of_is_correct.append(p==t[i])
     if p == t[i]:
         accuracy_cnt += 1
 
 print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
+print(f"Excution Time : {time.time()-start_time}ms") # 0.9777185916900635 ms
 
-img_show(x_test[100].reshape(28,28))
-print(t_test[100])
-print(predict(network, x_test[0]))
+# x,t = get_data(normalize=False,flatten=False)
+# print(len(x))
+# for i,v_img, label_true, label_predict, isCorrect in zip(range(len(x)),x,t,y,list_of_is_correct):
+#     if isCorrect:
+#         continue
+#     print(v_img)
+#     print(i,label_true,label_predict, isCorrect)
+#     time.sleep(2)
+# plt.figure()
+# plt.imshow(img)
+# plt.show()

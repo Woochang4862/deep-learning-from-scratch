@@ -5,7 +5,7 @@ import numpy as np
 import pickle
 from dataset.mnist import load_mnist
 from common.functions import sigmoid, softmax
-
+import time
 
 def get_data():
     (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
@@ -31,17 +31,19 @@ def predict(network, x):
 
     return y
 
-
+start_time = time.time()
 x, t = get_data()
 network = init_network()
 
-batch_size = 100 # 배치 크기
+batch_size = 100 # 배치 크기 : 크게 할수록, OOM 에러 발생 가능성 높아짐
 accuracy_cnt = 0
 
 for i in range(0, len(x), batch_size):
     x_batch = x[i:i+batch_size]
     y_batch = predict(network, x_batch)
-    p = np.argmax(y_batch, axis=1)
+    p = np.argmax(y_batch, axis=1) # 0 : "행" 사이의 이동 / 1 : "열" 사이의 이동
     accuracy_cnt += np.sum(p == t[i:i+batch_size])
 
 print("Accuracy:" + str(float(accuracy_cnt) / len(x)))
+
+print(f"Excution Time : {time.time()-start_time}ms") # 0.5445611476898193
