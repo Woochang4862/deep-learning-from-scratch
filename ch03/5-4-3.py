@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pickle
 from dataset.mnist import load_mnist
 from common.functions import sigmoid, softmax
+from tqdm import tqdm
 
 
 def get_data():
@@ -35,20 +36,19 @@ def predict(network, x):
 
 x, t = get_data()
 network = init_network()
-error=[]
-for i in range(len(x)):
+correct = []
+for i in tqdm(range(len(x))):
     y = predict(network, x[i])
     p= np.argmax(y) # 확률이 가장 높은 원소의 인덱스를 얻는다.
-    if p != t[i]:
-        error.append(i)
+    if p != t[i] and y[p] >= 0.9:
+        correct.append(i)
         
-print(error)
-
+print(f'Ratio of incorrection with more than 0.9 : {len(correct)/len(x)}')
 plt.figure(figsize=(10,10)) # 가로세로 숫자하나당 2*2
 for i in range(25):
     plt.subplot(5,5,i+1)
     plt.xticks([])
     plt.yticks([])
-    plt.imshow(x[error[i]].reshape(28,28), cmap=plt.cm.binary)
-    plt.xlabel(t[error[i]])
+    plt.imshow(x[correct[i]].reshape(28,28), cmap=plt.cm.binary)
+    plt.xlabel(t[correct[i]])
 plt.show()
