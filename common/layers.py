@@ -35,6 +35,22 @@ class Sigmoid:
         dx = dout * (1.0 - self.out) * self.out
 
         return dx
+class SimpleAffine:
+    def __init__(self, W, b):
+        self.W = W
+        self.b = b
+
+    def forward(self, x):
+        self.x = x
+        out = np.dot(self.x, self.W) + self.b
+        return out
+    
+    def backward(self, dout):
+        dx = np.dot(dout, self.W.T)
+        self.dW = np.dot(self.x.T, dout)
+        self.db = np.sum(dout, axis=0)
+
+        return dx
 
 
 class Affine:
@@ -51,7 +67,7 @@ class Affine:
     def forward(self, x):
         # 텐서 대응
         self.original_x_shape = x.shape
-        x = x.reshape(x.shape[0], -1)
+        x = x.reshape(x.shape[0], -1) # CNN 4차원 텐서라고 가정할 때 batch_size*image_size 로 flatten 한 효과
         self.x = x
 
         out = np.dot(self.x, self.W) + self.b

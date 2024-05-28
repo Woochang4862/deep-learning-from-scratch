@@ -3,6 +3,7 @@
 
 class MulLayer:
     def __init__(self):
+        # 사용할 멤버 변수를 정의하기 위한 None 대입
         self.x = None
         self.y = None
 

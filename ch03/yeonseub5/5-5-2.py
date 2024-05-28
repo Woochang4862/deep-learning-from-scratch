@@ -1,9 +1,10 @@
 # coding: utf-8
 import sys, os
 sys.path.append(os.pardir+'/../')  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
+print(sys.path)
 import numpy as np
 import pickle # 
-from dataset.mnist import load_mnist
+from ...dataset.mnist import load_mnist
 from common.functions import sigmoid, softmax
 import time
 from tqdm import tqdm
