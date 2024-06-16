@@ -7,7 +7,7 @@ from common.gradient import numerical_gradient
 from collections import OrderedDict
 
 
-class TwoLayerNet:
+class TwoLayerNet: # 4강 TwoLayerNet 과 비교하면 수치미분이 아닌 역전파를 사용했다
 
     def __init__(self, input_size, hidden_size, output_size, weight_init_std = 0.01):
         # 가중치 초기화
@@ -18,7 +18,7 @@ class TwoLayerNet:
         self.params['b2'] = np.zeros(output_size)
 
         # 계층 생성
-        self.layers = OrderedDict()
+        self.layers = OrderedDict() # 순서까지 고려된 딕셔너리 순서가 다른 두 딕트의 == 연산시 큰 차이를 보임
         self.layers['Affine1'] = Affine(self.params['W1'], self.params['b1'])
         self.layers['Relu1'] = Relu()
         self.layers['Affine2'] = Affine(self.params['W2'], self.params['b2'])
@@ -27,11 +27,12 @@ class TwoLayerNet:
         
     def predict(self, x):
         for layer in self.layers.values():
-            x = layer.forward(x)
+            if(isinstance(layer, Affine))
+                x = layer.forward(x)
         
         return x
         
-    # x : 입력 데이터, t : 정답 레이블
+    # x : 입력 데이터->forward를 통해 결과값을 구함, t : 정답 레이블->Loss를 구하기 위해 결과값과 비교되는 
     def loss(self, x, t):
         y = self.predict(x)
         return self.lastLayer.forward(y, t)
@@ -58,10 +59,11 @@ class TwoLayerNet:
         
     def gradient(self, x, t):
         # forward
-        self.loss(x, t)
+        # 미분 값을 계산하기 위해 forward에서 나온 값을 이용하기 때문에 그 값들이 정해져있어야 한다.
+        self.loss(x, t) 
 
         # backward
-        dout = 1
+        dout = 1 # 역전파는 사실상 곱셈의 연속, 따라서 곱셈에서의 백지, 곱셈의 항등원인 1을 이용
         dout = self.lastLayer.backward(dout)
         
         layers = list(self.layers.values())

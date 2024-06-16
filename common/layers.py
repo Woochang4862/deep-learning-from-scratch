@@ -32,7 +32,7 @@ class Sigmoid:
         return out
 
     def backward(self, dout):
-        dx = dout * (1.0 - self.out) * self.out
+        dx = dout * (1.0 - self.out) * self.out # 빠른 계산이 가능 
 
         return dx
 class SimpleAffine:

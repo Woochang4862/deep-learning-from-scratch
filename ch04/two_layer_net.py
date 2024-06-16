@@ -41,6 +41,7 @@ class TwoLayerNet:
         return accuracy
         
     # x : 입력 데이터, t : 정답 레이블
+    # 시간이 너무 오래 걸려서 안 쓰고 역전파를 이용 즉, 클래스에서 안 쓰이는 함수
     def numerical_gradient(self, x, t):
         loss_W = lambda W: self.loss(x, t)
         
