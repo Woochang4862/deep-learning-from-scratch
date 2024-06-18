@@ -22,16 +22,43 @@ def function_2(x):
 
 init_x = np.array([-3.0, 4.0])    
 
-lr = 0.1
+plt.figure(figsize=(12,4))
 step_num = 20
-x, x_history = gradient_descent(function_2, init_x, lr=lr, step_num=step_num)
 
+x, x_history = gradient_descent(function_2, init_x, lr=0.01, step_num=step_num)
+print(x_history)
+plt.subplot(1,3,1)
 plt.plot( [-5, 5], [0,0], '--b')
 plt.plot( [0,0], [-5, 5], '--b')
-plt.plot(x_history[:,0], x_history[:,1], 'o')
-
 plt.xlim(-3.5, 3.5)
 plt.ylim(-4.5, 4.5)
 plt.xlabel("X0")
 plt.ylabel("X1")
+plt.title("learning rate : 0.01")
+plt.plot(x_history[:,0], x_history[:,1], 'o')
+
+x, x_history = gradient_descent(function_2, init_x, lr=1.01, step_num=step_num)
+print(x_history)
+plt.subplot(1,3,2)
+plt.plot( [-5, 5], [0,0], '--b')
+plt.plot( [0,0], [-5, 5], '--b')
+plt.xlim(-3.5, 3.5)
+plt.ylim(-4.5, 4.5)
+plt.xlabel("X0")
+plt.ylabel("X1")
+plt.title("learning rate : 1.01")
+plt.plot(x_history[:,0], x_history[:,1], 'o')
+
+x, x_history = gradient_descent(function_2, init_x, lr=0.1, step_num=step_num)
+print(x_history)
+plt.subplot(1,3,3)
+plt.plot( [-5, 5], [0,0], '--b')
+plt.plot( [0,0], [-5, 5], '--b')
+plt.xlim(-3.5, 3.5)
+plt.ylim(-4.5, 4.5)
+plt.xlabel("X0")
+plt.ylabel("X1")
+plt.title("learning rate : 0.1")
+plt.plot(x_history[:,0], x_history[:,1], 'o')
+
 plt.show()
