@@ -27,8 +27,7 @@ class TwoLayerNet: # 4강 TwoLayerNet 과 비교하면 수치미분이 아닌 �
         
     def predict(self, x):
         for layer in self.layers.values():
-            if(isinstance(layer, Affine))
-                x = layer.forward(x)
+            x = layer.forward(x)
         
         return x
         
